@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="printer" class="entity.Printer">
+        <constructor-arg name="name" value="${printer.cannon}"/>
+        <constructor-arg name="type" value="${printer.color}"/>
+    </bean>
+
+    <bean id="computer" class="entity.Computer">
+        <constructor-arg name="id" value="${computer.id}"/>
+        <constructor-arg name="model" value="${computer.model}"/>
+        <constructor-arg name="processor" value="${computer.processor}"/>
+        <constructor-arg name="ram" value="${computer.ram}"/>
+    </bean>
+    <bean id="computerExtra" class="entity.Computer">
+        <constructor-arg name="id" value="${computer.id}"/>
+        <constructor-arg name="model" value="${computer.model}"/>
+        <constructor-arg name="processor" value="${computer.processor}"/>
+        <constructor-arg name="ram" value="${computer.ram}"/>
+    </bean>
+    <bean id="salaryService"
+          class="services.CalculateSalaryService"
+          factory-method="calculateSalary"
+          scope="prototype">
+        <constructor-arg name="employee" ref="employee"/>
+    </bean>
+    <bean id="employee"
+          class="entity.Employee"
+          scope="prototype">
+        <constructor-arg name="computer" ref="computer"/>
+        <constructor-arg name="salary" ref="salaryService"/>
+        <constructor-arg name="level" value="${employee.level}"/>
+    </bean>
+
+    <bean id="director" class="entity.Director">
+        <constructor-arg name="computer" ref="computer"/>
+        <constructor-arg name="computerExtra" ref="computerExtra"/>
+        <constructor-arg name="printer" ref="printer"/>
+        <constructor-arg name="salary" ref="salaryService"/>
+        <constructor-arg name="level" value="${director.level}"/>
+    </bean>
+
+<!--    <bean id="company" class="entity.Company">-->
+<!--        <constructor-arg name="emps" ref="employee"/>-->
+<!--    </bean>-->
+
+    <context:property-placeholder location="application.properties"/>
+
+</beans>
+
